@@ -1,0 +1,12 @@
+[wokwi]
+version = 1
+firmware = "build/WokwiMotor.ino.bin"
+elf = "build/WokwiMotor.ino.elf"
+
+[[chip]]
+name = "l293d"
+binary = "chips/build/l293d.chip.wasm"
+
+[[chip]]
+name = "dc-motor"
+binary = "chips/build/dc-motor.chip.wasm"

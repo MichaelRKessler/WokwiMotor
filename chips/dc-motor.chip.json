@@ -1,0 +1,10 @@
+{
+  "name": "DC Motor",
+  "author": "WokwiMotor",
+  "pins": ["", "", "M2", "M1"],
+  "display": {
+    "width": 96,
+    "height": 108
+  },
+  "controls": []
+}

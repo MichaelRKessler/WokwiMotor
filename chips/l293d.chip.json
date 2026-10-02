@@ -1,0 +1,24 @@
+{
+  "name": "L293D",
+  "author": "WokwiMotor",
+  "layout": "dip",
+  "pins": [
+    "EN12",
+    "1A",
+    "1Y",
+    "GND.1",
+    "GND.2",
+    "2Y",
+    "2A",
+    "VCC2",
+    "EN34",
+    "3A",
+    "3Y",
+    "GND.3",
+    "GND.4",
+    "4Y",
+    "4A",
+    "VCC1"
+  ],
+  "controls": []
+}
