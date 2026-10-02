@@ -23,10 +23,11 @@
     {
       "type": "chip-dc-motor",
       "id": "motor",
-      "top": 40.6,
-      "left": -240,
+      "top": 39.42,
+      "left": -252.59,
       "attrs": { "maxRpm": "60", "tau": "0.25" }
-    }
+    },
+    { "type": "wokwi-vcc", "id": "vcc1", "top": 67.96, "left": -134.4, "attrs": {} }
   ],
   "connections": [
     [ "esp:TX0", "$serialMonitor:RX", "", [] ],
@@ -41,9 +42,9 @@
     [ "drv:2A", "esp:D27", "violet", [ "h-10", "v23.2" ] ],
     [ "drv:1Y", "motor:M1", "green", [] ],
     [ "drv:2Y", "motor:M2", "yellow", [ "h-20", "v-19.2" ] ],
-    [ "drv:VCC2", "esp:VIN", "red", [ "h-5", "v61.3" ] ],
     [ "drv:VCC1", "esp:VIN", "red", [ "h18", "v128.5" ] ],
-    [ "drv:GND.1", "esp:GND.2", "black", [ "h-14.8", "v84.9", "v5" ] ]
+    [ "drv:GND.1", "esp:GND.2", "black", [ "h-14.8", "v84.9", "v5" ] ],
+    [ "vcc1:VCC", "drv:VCC2", "red", [ "v-9.6" ] ]
   ],
   "dependencies": {}
 }
