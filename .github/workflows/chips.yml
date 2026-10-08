@@ -1,0 +1,65 @@
+# Builds the custom chips on every change. Pushing a v* tag also publishes them
+# as wokwi-motor-chips.zip on a GitHub release, so other projects can use the
+# chips without building them.
+name: Chips
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']  # path filters below are not applied to tag pushes
+    paths:
+      - 'chips/**'
+      - 'build-chips.ps1'
+      - '.github/workflows/chips.yml'
+  pull_request:
+    paths:
+      - 'chips/**'
+      - 'build-chips.ps1'
+      - '.github/workflows/chips.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Cache wasi-sdk
+        uses: actions/cache@v6
+        with:
+          path: ~/.wasi-sdk
+          key: wasi-sdk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build-chips.ps1') }}
+
+      - name: Build chips
+        shell: pwsh
+        run: ./build-chips.ps1
+
+      - name: Package chips
+        working-directory: chips/build
+        run: zip -9 ../../wokwi-motor-chips.zip *.chip.wasm *.chip.json
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wokwi-motor-chips
+          path: wokwi-motor-chips.zip
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: wokwi-motor-chips
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "$GITHUB_REF_NAME" wokwi-motor-chips.zip
+          --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --generate-notes
